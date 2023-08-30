@@ -27,19 +27,19 @@ if (!isset($_POST["raAluno"])) {
     try {
 
         //selecionando o nome da foto para remover o arquivo do disco
-        $stmt = $pdo->prepare('SELECT arquivoFoto FROM alunos WHERE ra = :ra');
+        $stmt = $pdo->prepare('SELECT fotoFile FROM alunoPHP WHERE ra = :ra');
         $stmt->bindParam(':ra', $ra);
         $stmt->execute();
         $row = $stmt->fetch();
-        $arquivoFoto = $row["arquivoFoto"];
+        $fotoFile = $row["fotoFile"];
 
-        $stmt = $pdo->prepare('DELETE FROM alunos WHERE ra = :ra');
+        $stmt = $pdo->prepare('DELETE FROM alunoPHP WHERE ra = :ra');
         $stmt->bindParam(':ra', $ra);
         $stmt->execute();
 
         //removendo do disco o arquivo correspondente
-        if ($arquivoFoto != null) {
-            unlink($arquivoFoto);
+        if ($fotoFile != null) {
+            unlink($fotoFile);
         }
 
         echo $stmt->rowCount() . " aluno de RA $ra removido!";

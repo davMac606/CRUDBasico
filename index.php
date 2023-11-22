@@ -27,8 +27,9 @@
     <hr>
 
     <h2>Consulta de pedidos e items</h2>
-    <p>
-        <?php $msg ?>
+    <p>Para visualizar os arquivos de log, clique nos links abaixo:</p>
+    <p><a href="order_log.csv">order_log.csv</a></p>
+    <p><a href="item_log.csv">item_log.csv</a>
     </p>
 </body>
 

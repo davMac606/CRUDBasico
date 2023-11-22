@@ -1,17 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <title>Commandee</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        :root {
+            --primary: #039be5;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        div {
+            margin: 0 auto;
+            width: 50%;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
     <hr>
 
     <h2>Consulta de pedidos e items</h2>
-
+    <p>
+        <?php $msg ?>
+    </p>
 </body>
 
 </html>
@@ -26,6 +44,8 @@ try {
 
     $colTitles = array('quantity', 'priority', 'status');
     fputcsv($fp, $colTitles);
+    echo "<div>";
+    echo "<h3>Orders</h3>";
     echo "<table border='1px'>";
     echo "<tr><th>Quantity</th><th>Priority</th><th>Status</th></tr>";
 
@@ -47,15 +67,16 @@ try {
         echo "<td>" . $status . "</td>";
         echo "</tr>";
     }
-    
+
     fclose($fp);
- 
+
     echo "</table><br>";
     $stmt1 = $pdo->prepare("SELECT * FROM item ORDER BY `name`, price, available");
     $stmt1->execute();
     $fp1 = fopen('item_log.csv', 'w');
     $colTitles1 = array('name', 'price', 'available');
     fputcsv($fp1, $colTitles1);
+    echo "<h3>Items</h3>";
     echo "<table border='1px'>";
     echo "<tr><th>Name</th><th>Price</th><th>Available</th></tr>";
     while ($row1 = $stmt1->fetch()) {
@@ -77,7 +98,8 @@ try {
     fclose($fp1);
 
     echo "</table><br>";
-
+    echo "</div>";
+    $msg = "Log files created successfully.";
 
 } catch (PDOException $e) {
     echo 'Error: ' . $e->getMessage();

@@ -29,8 +29,8 @@
     <h2>Consulta de pedidos e items</h2>
     <p>Para visualizar os arquivos de log, clique nos links abaixo:</p>
     <p><a href="order_log.csv">order_log.csv</a></p>
-    <p><a href="item_log.csv">item_log.csv</a>
-    </p>
+    <p><a href="item_log.csv">item_log.csv</a></p>
+    <p><a href="employee_log.csv">employee_log.csv</a></p>
 </body>
 
 </html>
@@ -99,6 +99,29 @@ try {
     fclose($fp1);
 
     echo "</table><br>";
+    $stmt2 = $pdo->prepare("SELECT * FROM employee ORDER BY username, email");
+    $stmt2->execute();
+    $fp2 = fopen('employee_log.csv', 'w');
+    $colTitles2 = array('username', 'email');
+    fputcsv($fp2, $colTitles2);
+    echo "<h3>Employees</h3>";
+    echo "<table border='1px'>";
+    echo "<tr><th>Username</th><th>Email</th></tr>";
+    while ($row2 = $stmt2->fetch()) {
+        $username = $row2['username'];
+        $email = $row2['email'];
+        $list2 = array(
+            array($username, $email)
+        );
+        foreach ($list2 as $line2) {
+            fputcsv($fp2, $line2);
+        }
+        echo "<td>" . $username . "</td>";
+        echo "<td>" . $email . "</td>";
+        echo "</tr>";
+    }
+    echo "</table><br>";
+
     echo "</div>";
     $msg = "Log files created successfully.";
 
